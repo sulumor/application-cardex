@@ -26,6 +26,7 @@
                 <th>Machine</th>
                 <th>Marque</th>
                 <th>Password</th>
+                <th>Historique</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -36,7 +37,7 @@
                 $recherche = [];
                 
                 if(empty($_POST) || $_POST['recherche'] === ''){
-                    $statement = $db->query('SELECT cardex.id, cardex.civilite, cardex.last_name, cardex.first_name, cardex.email, cardex.phone, cardex.password, cardex.join_date, items.name AS machine, brand.brand_name AS marque
+                    $statement = $db->query('SELECT cardex.id, cardex.civilite, cardex.last_name, cardex.first_name, cardex.email, cardex.phone, cardex.password, cardex.historique, cardex.join_date, items.name AS machine, brand.brand_name AS marque
                     FROM cardex 
                     LEFT JOIN brand ON cardex.brand_category = brand.id  
                     LEFT JOIN items ON cardex.items_category = items.id
@@ -53,6 +54,7 @@
                         echo '<td>' .$cardex['machine'].'</td>';
                         echo '<td>' .$cardex['marque'].'</td>';
                         echo '<td>' .$cardex['password'].'</td>';
+                        echo '<td>' .$cardex['historique']. '</td>';
                         echo '<td class="action">';
                         echo '<a href="update.php?id=' .$cardex['id']. '"><span class="fa fa-pencil"></span></a>';
                         echo '<a href="delete.php?id=' .$cardex['id']. '"><span class="fa fa-remove"></span></a>';  
@@ -61,7 +63,7 @@
                     }
                 }else if(!empty($_POST)){
                     $recherche[] = $_POST['recherche'];
-                    $statement = $db->prepare("SELECT cardex.id, cardex.civilite, cardex.last_name, cardex.first_name, cardex.email, cardex.phone, cardex.password, cardex.join_date, items.name AS machine, brand.brand_name AS marque
+                    $statement = $db->prepare("SELECT cardex.id, cardex.civilite, cardex.last_name, cardex.first_name, cardex.email, cardex.phone, cardex.password, cardex.historique, cardex.join_date, items.name AS machine, brand.brand_name AS marque
                     FROM cardex 
                     LEFT JOIN brand ON cardex.brand_category = brand.id  
                     LEFT JOIN items ON cardex.items_category = items.id
@@ -81,6 +83,7 @@
                             echo '<td>' .$cardex['machine'].'</td>';
                             echo '<td>' .$cardex['marque'].'</td>';
                             echo '<td>' .$cardex['password'].'</td>';
+                            echo '<td>' .$cardex['historique'].'</td>';
                             echo '<td class="action">';
                             echo '<a href="update.php?id=' .$cardex['id']. '"><span class="fa fa-pencil"></span></a>';
                             echo '<a href="delete.php?id=' .$cardex['id']. '"><span class="fa fa-remove"></span></a>';  

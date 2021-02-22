@@ -5,7 +5,7 @@
         $id = checkInput($_GET['id']);
     }
 
-    $civilite = $first_name = $last_name = $phone = $email = $brand = $items = $password = $affichage = $phoneError = $emailError = "";
+    $civilite = $first_name = $last_name = $phone = $email = $brand = $items = $password = $affichage = $historique = $phoneError = $emailError = "";
 
     if(!empty($_POST)){
         $civilite   =checkInput($_POST['civilite']);
@@ -16,6 +16,7 @@
         $brand      = checkInput($_POST['brand']);
         $items      = checkInput($_POST['items']);
         $password   = checkInput($_POST['password']);
+        $historique = checkInput($_POST['historique']);
         $affichage  = checkInput($_POST['affichage']);
         $isSuccess  = true; 
 
@@ -39,8 +40,8 @@
 
         if($isSuccess){
         $db = Database::connect();
-        $statement = $db->prepare("UPDATE cardex set civilite = ?, affichage = ?, last_name = ?, first_name = ?, email = ?, phone = ?, items_category = ?, brand_category = ?, password = ? WHERE id = ?");
-        $statement->execute(array($civilite, $affichage, $last_name, $first_name, $email, $phone, $items, $brand, $password, $id));
+        $statement = $db->prepare("UPDATE cardex set civilite = ?, affichage = ?, last_name = ?, first_name = ?, email = ?, phone = ?, items_category = ?, brand_category = ?, password = ?, historique = ? WHERE id = ?");
+        $statement->execute(array($civilite, $affichage, $last_name, $first_name, $email, $phone, $items, $brand, $password,$historique, $id));
         Database::disconnect();
         header("Location: index.php");
         }
@@ -57,6 +58,7 @@
         $brand      = $client['brand_category'];
         $items      = $client['items_category'];
         $password   = $client['password'];
+        $historique = $client['historique'];
         $affichage  = $client['affichage'];
         Database::disconnect();
     }
@@ -91,9 +93,16 @@
         <h1>Base de données client</h1>
         <h2>Modification d'un client</h2>
             <form class="form" role="form" action="<?php echo 'update.php?id='.$id; ?>" method="post">
-                <div class="row">                   
+                <div class="row"> 
                     <div class="form-group">
-                        <label for="civilite">Civilité :</label>
+                        <label for="affichage"> Affichage </label>
+                        <select class = "form-control" name="affichage">
+                            <option selected = "selected" value="oui"> Oui </option>
+                            <option value="non"> Non </option>
+                        </select>
+                    </div>                      
+                    <div class="form-group">
+                        <label for="civilite">Civilité</label>
                         <select name="civilite" class = "form-control">
                             <option value="Mr">Monsieur</option>
                             <option value="Mme">Madame</option>
@@ -106,21 +115,26 @@
                     <div class="form-group">
                         <label for="firstname">Prenom</label>
                         <input type="text" name="first_name" value="<?php echo $first_name; ?>">
-                    </div>                        
-                </div>
-                <div class="row">                        
+                    </div>  
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="text" name="email" value="<?php echo $email; ?>">
                         <p><?php echo $emailError;?></p>
                     </div>                    
+                                           
+                </div>
+                <div class="row">                        
+                    <div class="form-group histo">
+                        <label for="historique">Historique</label>
+                        <textarea  class="full" name="historique"><?= $historique?></textarea>
+                    </div>                  
+                </div>
+                <div class="row">           
                     <div class="form-group">
                         <label for="phone">Téléphone</label>
                         <input type="text" name="phone" value="<?php echo $phone;?>">
                         <p><?php echo $phoneError;?></p>
-                    </div>                        
-                </div>
-                <div class="row">                   
+                    </div>            
                     <div class="form-group">
                         <label for="items">Machine </label>
                         <select class="form-control" name="items">
@@ -154,18 +168,12 @@
                     <div class="form-group">
                         <label for="password">Mot de Passe</label>
                         <input type="text" name="password" value="<?php echo $password; ?>">
-                    </div> 
-                    <div class="form-group">
-                        <label for="affichage"> Affichage </label>
-                        <select class = "form-control" name="affichage">
-                            <option selected = "selected" value="oui"> Oui </option>
-                            <option value="non"> Non </option>
-                        </select>
-                    </div>    
+                    </div>                    
                 </div>
                 <div class="btns-container">    
                     <button type="submit"><span class="fa fa-user-plus"></span> Modifier</button>
-                    <a  href="index.php"><span class="fa fa-arrow-left"></span> Retour</a>               
+                    <a  href="index.php"><span class="fa fa-arrow-left"></span> Retour BDD</a>               
+                    <a  href="../index.php"><span class="fa fa-arrow-left"></span> Retour Accueil</a>               
                 </div>
             </form>
         </div>
