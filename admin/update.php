@@ -43,7 +43,7 @@
         $statement = $db->prepare("UPDATE cardex set civilite = ?, affichage = ?, last_name = ?, first_name = ?, email = ?, phone = ?, items_category = ?, brand_category = ?, password = ?, historique = ? WHERE id = ?");
         $statement->execute(array($civilite, $affichage, $last_name, $first_name, $email, $phone, $items, $brand, $password,$historique, $id));
         Database::disconnect();
-        header("Location: index.php");
+        header("Location: ../index.php");
         }
     }else{
         $db = Database::connect();
@@ -126,7 +126,7 @@
                 <div class="row">                        
                     <div class="form-group histo">
                         <label for="historique">Historique</label>
-                        <textarea  class="full" name="historique"><?= $historique?></textarea>
+                        <textarea  class="full" name="historique">-<?= date('d/m/y') ?>- <?= "\n" ?><?= $historique?></textarea>
                     </div>                  
                 </div>
                 <div class="row">           

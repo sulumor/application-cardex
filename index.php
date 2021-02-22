@@ -90,7 +90,7 @@
     </head>
     <body>
         <h1>Cardex client</h1>
-        <a href="sauvegarde.php">Sauvegarder</a>
+        <a href="sauvegarde.php">Sauvegarder la BDD</a>
         <form class="form" role="form" action="index.php" method="post">
             <div class="row">
                 <div class="form-group">
@@ -150,7 +150,7 @@
                 </div>
                 <div class="form-group">
                     <label for="historique">Historique</label>
-                    <textarea name="historique"> - <?= date('d/m/y')?> -</textarea>
+                    <textarea name="historique" style="width:650px; padding:5px;"> - <?= date('d/m/y')?> -</textarea>
                 </div> 
             </div>    
             <div class="btns-container">    

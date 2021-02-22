@@ -9,7 +9,7 @@
     </head>
     <body>
     <h1>Base de données client</h1>
-    <h2>Liste des clients <a href="../index.php" ><span class="fa fa-angle-double-left"></span> Cardex Client</a></h2>
+    <h2>Liste des clients <a href="../index.php" ><span class="fa fa-angle-double-left"></span> Cardex Client</a><a href="../sauvegarde.php">Sauvegarder la BDD</a></h2>
     <form action="index.php" method="post" role="form" class="recherche">
         <input type="text" name="recherche" placeholder="Recherche d'un client">
         <button type="submit">Recherche</button>   

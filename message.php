@@ -8,7 +8,6 @@
     $civilite = $last_name = $email = $brand = $items = $emailError = "";
 
     if(!empty($_POST)){
-        
         $destinataire = checkInput($_POST['destinataire']);
         $sujet = $_POST['sujet'];
         $emailText = $_POST['text'];
@@ -21,7 +20,10 @@
 
         if($isSuccess){
             // $headers="De: computer04magasin@orange.fr";
-            $headers="De: romuald.patfoort@gmail.com";
+            $headers=array(
+                "From" => "romuald.patfoort@gmail.com",
+                "Reply to" =>"romuald.patfoort@gmail.com"
+            );
 
             if(mail($destinataire, $sujet, $emailText,$headers)){
                 header("Location: index.php");
@@ -54,6 +56,7 @@
     function isEmail($var){
         return filter_var($var, FILTER_VALIDATE_EMAIL);
     }
+ 
 ?>
 
 <!DOCTYPE html>
