@@ -51,7 +51,7 @@ class BackupMySQL extends mysqli {
 			'port' => ini_get('mysqli.default_port'),
 			'socket' => ini_get('mysqli.default_socket'),
 			// autres options
-			'dossier' => './DB_Backup/',
+			'dossier' => '../DB_Backup/',
 			'nbr_fichiers' => 5,
 			'nom_fichier' => 'backup'
 			);
@@ -231,5 +231,3 @@ new BackupMySQL(array(
 
 
 ?>
-
-<a  href="index.php"><span class="fa fa-arrow-left"></span> Retour Accueil</a>
