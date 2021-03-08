@@ -12,6 +12,7 @@
         $destinataire = checkInput($_POST['destinataire']);
         $sujet = $_POST['sujet'];
         $emailText = $_POST['text'];
+        $id = checkInput($_GET['id']);
         $isSuccess = true;
                 
         if(!isEmail($destinataire)){
@@ -21,11 +22,17 @@
 
         if($isSuccess){
             $headers=array(
-                "From" => "computer04magasin@orange.fr",
-                "Reply to" =>"computer04magasin@orange.fr"
+                "From" => "romuald.patfoort@gmail.com",
+                "Reply to" => "romuald.patfoort@gmail.com"
+                // "From" => "computer04magasin@orange.fr",
+                // "Reply to" =>"computer04magasin@orange.fr"
             );
 
             if(mail($destinataire, $sujet, $emailText,$headers)){
+                $db = Database::connect();
+                $statement = $db->prepare("UPDATE cardex set email_success = ? WHERE id = ?");
+                $statement->execute(array(date('d/m/y H:i'), $id));
+                Database::disconnect();
                 header("Location: index.php");
             }else{
                 echo "Echec de l'envoie de l'email à $destinataire";
@@ -38,7 +45,7 @@
         LEFT JOIN items ON cardex.items_category = items.id 
         WHERE cardex.id IN (?)');
         $statement->execute(array($id));
-        $client = $statement->fetch();
+        $client= $statement->fetch();
         $civilite   = $client['civilite'];
         $last_name  = $client['last_name'];
         $email      = $client['email'];
@@ -53,7 +60,7 @@
 
 <h1>Cardex Client</h1>
 <h2>Envoie d'un email</h2>
-    <form class = "form-message" role="form" action="<?php echo 'message.php? id =' .$id;?>" method ="post">
+    <form class = "form-message" role="form" action="<?php echo 'email.php?id=' .$id;?>" method ="post">
         <div class="form-group">
             <label for="destinataire">Destinataire :</label>
             <input type="text" name="destinataire" value = "<?php echo $email; ?>">
@@ -84,5 +91,5 @@ Cordialement,
     </form>
 </div>
 
-<?php require 'footer.php' ?>
+<?php require 'elements/footer.php' ?>
                 

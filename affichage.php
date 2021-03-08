@@ -10,8 +10,8 @@
         $id = checkInput($_POST['id']);
         $affichage = 'non';
         $db = Database::connect();
-        $statement = $db->prepare("UPDATE cardex set affichage = ? WHERE id = ?");
-        $statement->execute(array($affichage,$id));
+        $statement = $db->prepare("UPDATE cardex set affichage = ?, email_success = ? WHERE id = ?");
+        $statement->execute(array($affichage,'',$id));
         Database::disconnect();
         header("Location: index.php");
     }

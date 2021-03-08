@@ -83,6 +83,9 @@ a, button{
     width: 25%;
     color:#F2F4FF;
 }
+.success{
+    background: green!important;
+}
 a{
     background: #f34213;
     text-decoration: none;
@@ -171,4 +174,18 @@ textarea{
     font-size: 20px;
     border: 1px solid #000;
     border-radius: 9999px;
+}
+.tooltip{
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+.success:hover .tooltip{
+    opacity: 1;
+    visibility: visible;
 }

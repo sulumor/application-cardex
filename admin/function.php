@@ -5,6 +5,7 @@ function checkInput($data){
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
+    $date = htmlentities($data);
     return $data;
 }
 

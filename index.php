@@ -1,6 +1,7 @@
 <?php
     require 'class/Database.php';
     require 'admin/function.php';
+    
 
     $civilite = $first_name = $last_name = $phone = $email = $brand = $items = $password = $historique = $emptyError = $phoneError = $emailError = "";
 
@@ -65,7 +66,7 @@
 ?>
 <h1>Cardex client</h1>
 <a href="class/BackupMySQL.php">Sauvegarder la BDD</a>
-<form class="form" role="form" action="index.php" method="post">
+<form class="form" role="form" action="index.php" method="POST">
     <div class="row">
         <div class="form-group">
             <label for="civilite">Civilité </label>
@@ -151,7 +152,7 @@
     <tbody>
         <?php
             $db = Database::connect();
-            $statement = $db->query('SELECT cardex.id, cardex.civilite, cardex.last_name, cardex.first_name, cardex.email, cardex.phone, cardex.password, cardex.historique, cardex.join_date, items.name AS machine, brand.brand_name AS marque
+            $statement = $db->query('SELECT cardex.id, cardex.civilite, cardex.last_name, cardex.first_name, cardex.email, cardex.phone, cardex.password, cardex.historique, cardex.join_date, cardex.email_success, items.name AS machine, brand.brand_name AS marque
                                         FROM cardex 
                                         LEFT JOIN brand ON cardex.brand_category = brand.id  
                                         LEFT JOIN items ON cardex.items_category = items.id
@@ -159,6 +160,8 @@
                                         ORDER BY cardex.join_date DESC ');
             
             while($cardex = $statement->fetch()){
+                $style = $cardex['email_success'] !== '' ? 'success' : ' ';
+                $enveloppe = $cardex['email_success'] !== '' ? '-open-o' : ' ';
                 echo '<tr>';
                 echo '<td>'.$cardex['join_date'].'</td>';
                 echo '<td>'.$cardex['last_name'].'</td>';
@@ -170,16 +173,19 @@
                 echo '<td>' .$cardex['password'].'</td>';
                 echo '<td>' .$cardex['historique'].'</td>';
                 echo '<td class="action">'; 
-                echo '<a href="email.php?id=' .$cardex['id']. '"><span class="fa fa-envelope"></span></a>';
+                echo '<a href="email.php?id=' .$cardex['id']. '" class = "' .$style. '"><span class="fa fa-envelope'. $enveloppe .'"></span>';
+                echo '<span class="tooltip"> Email envoyé le ' .$cardex['email_success'] . '</span></a>';
                 echo '<a href="admin/update.php?id=' .$cardex['id']. '"><span class ="fa fa-save"></span></a>';
                 echo '<a href="affichage.php?id=' .$cardex['id']. '"><span class ="fa fa-check-circle-o"></span></a>';
                 echo '</td>';
                 echo '</tr>';
+                
             }
 
             Database::disconnect();
         ?>
     </tbody>
-</table> 
+</table>
+
 
 <?php require 'elements/footer.php' ?>

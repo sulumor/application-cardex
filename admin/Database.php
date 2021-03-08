@@ -12,7 +12,7 @@
             try{
                 self::$connection = new PDO("mysql:host=".self::$dbHost."; dbname=".self::$dbName, self::$dbUser, self::$dbUserPassword);
             }
-            catch(PDOExecption $e){
+            catch(PDOException $e){
                 die($e->getMessage());
             }
             return self::$connection;
