@@ -1,0 +1,16 @@
+{
+    "name": "romuald/size",
+    "description": "Application cardex",
+    "authors": [
+        {
+            "name": "Romuald",
+            "email": "romuald.patfoort@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\" : "src/"
+        }
+    }
+}

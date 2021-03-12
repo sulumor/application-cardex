@@ -1,35 +1,34 @@
 <?php
-    require '../class/Database.php';
-    require 'function.php';
+    require '../vendor/autoload.php';
+    use App\{Database, Helpers};
 
     if(!empty($_GET['id'])){
-        $id = checkInput($_GET['id']);
+        $id = Helpers::checkInput($_GET['id']);
     }
 
-    $civilite = $first_name = $last_name = $phone = $email = $brand = $items = $password = $affichage = $historique = $phoneError = $emailError = "";
+    $civilite = $first_name = $last_name = $phone = $email = $items = $password = $affichage = $historique = $phoneError = $emailError = "";
 
     if(!empty($_POST)){
-        $civilite   =checkInput($_POST['civilite']);
-        $first_name = checkInput($_POST['first_name']);
-        $last_name  = checkInput($_POST['last_name']);
-        $phone      = checkInput($_POST['phone']);
-        $email      = checkInput($_POST['email']);
-        $brand      = checkInput($_POST['brand']);
-        $items      = checkInput($_POST['items']);
-        $password   = checkInput($_POST['password']);
-        $historique = checkInput($_POST['historique']);
-        $affichage  = checkInput($_POST['affichage']);
+        $civilite   = Helpers::checkInput($_POST['civilite']);
+        $first_name = Helpers::checkInput($_POST['first_name']);
+        $last_name  = Helpers::checkInput($_POST['last_name']);
+        $phone      = Helpers::checkInput($_POST['phone']);
+        $email      = Helpers::checkInput($_POST['email']);
+        $items      = Helpers::checkInput($_POST['items']);
+        $password   = Helpers::checkInput($_POST['password']);
+        $historique = Helpers::checkInput($_POST['historique']);
+        $affichage  = Helpers::checkInput($_POST['affichage']);
         $isSuccess  = true; 
 
         if(!empty($email)){
-            if(!isEmail($email)){
+            if(!Helpers::isEmail($email)){
                 $emailError = "Ce n'est pas un email valide!";
                 $isSuccess = false;
             }
         }
 
         if(!empty($phone)){
-            if(!isPhone($phone)){
+            if(!Helpers::isPhone($phone)){
                 $phoneError = "Ce n'est pas un numéro valide!";
                 $isSuccess = false;
             }
@@ -41,22 +40,21 @@
 
         if($isSuccess){
         $db = Database::connect();
-        $statement = $db->prepare("UPDATE cardex set civilite = ?, affichage = ?, last_name = ?, first_name = ?, email = ?, phone = ?, items_category = ?, brand_category = ?, password = ?, historique = ? WHERE id = ?");
-        $statement->execute(array($civilite, $affichage, $last_name, $first_name, $email, $phone, $items, $brand, $password,$historique, $id));
+        $statement = $db->prepare("UPDATE cardex set civilite = ?, affichage = ?, last_name = ?, first_name = ?, email = ?, phone = ?, items_category = ?, password = ?, historique = ? WHERE id = ?");
+        $statement->execute([$civilite, $affichage, $last_name, $first_name, $email, $phone, $items, $password,$historique, $id]);
         Database::disconnect();
         header("Location: ../index.php");
         }
     }else{
         $db = Database::connect();
         $statement = $db->prepare("SELECT * FROM cardex WHERE id = ?");
-        $statement->execute(array($id));
+        $statement->execute([$id]);
         $client = $statement->fetch();
-        $civilite   = $client['civilite'];
+        $civilite   =$client['civilite'];
         $first_name = $client['first_name'];
         $last_name  = $client['last_name'];
         $phone      = $client['phone'];
         $email      = $client['email'];
-        $brand      = $client['brand_category'];
         $items      = $client['items_category'];
         $password   = $client['password'];
         $historique = $client['historique'];
@@ -64,13 +62,13 @@
         Database::disconnect();
     }
 
-    $pageTitle = "Modification d'un client";
+    $style = "../style/style.css";
+    $pageTitle = "Modifier une fiche client";
     require '../elements/header.php';
 ?>
-
 <h1>Base de données client</h1>
 <h2>Modification d'un client</h2>
-    <form class="form" role="form" action="<?php echo 'update.php?id='.$id; ?>" method="post">
+    <form class="form" role="form" action="<?= 'update.php?id='.$id; ?>" method="post">
         <div class="row"> 
             <div class="form-group">
                 <label for="affichage"> Affichage </label>
@@ -88,16 +86,16 @@
             </div>                    
             <div class="form-group">
                 <label for="name">Nom</label>
-                <input type="text" name="last_name" value="<?php echo $last_name; ?>">
+                <input type="text" name="last_name" value="<?= $last_name; ?>">
             </div>                      
             <div class="form-group">
                 <label for="firstname">Prenom</label>
-                <input type="text" name="first_name" value="<?php echo $first_name; ?>">
+                <input type="text" name="first_name" value="<?= $first_name; ?>">
             </div>  
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" name="email" value="<?php echo $email; ?>">
-                <p><?php echo $emailError;?></p>
+                <input type="text" name="email" value="<?= $email; ?>">
+                <p><?= $emailError;?></p>
             </div>                    
                                     
         </div>
@@ -110,8 +108,8 @@
         <div class="row">           
             <div class="form-group">
                 <label for="phone">Téléphone</label>
-                <input type="text" name="phone" value="<?php echo $phone;?>">
-                <p><?php echo $phoneError;?></p>
+                <input type="text" name="phone" value="<?= $phone;?>">
+                <p><?= $phoneError;?></p>
             </div>            
             <div class="form-group">
                 <label for="items">Machine </label>
@@ -129,23 +127,8 @@
                 </select>    
             </div>
             <div class="form-group">
-                <label for="brand">Marque </label>
-                <select class="form-control" name="brand">
-                    <?php
-                        $db = Database::connect();
-                        foreach($db->query('SELECT * FROM brand')as $row){
-                            if($row['id'] == $brand)
-                                echo '<option selected = "selected" value="'.$row['id'].'">'.$row['brand_name'].'</option>';
-                            else
-                                echo '<option value="'.$row['id'].'">'.$row['brand_name'].'</option>';
-                        }
-                        Database::disconnect();
-                    ?>
-                </select>    
-            </div>
-            <div class="form-group">
                 <label for="password">Mot de Passe</label>
-                <input type="text" name="password" value="<?php echo $password; ?>">
+                <input type="text" name="password" value="<?= $password; ?>">
             </div>                    
         </div>
         <div class="btns-container">    
@@ -156,4 +139,4 @@
     </form>
 </div>
 
-<?php require '../elements/footer.php' ?>
+<?php require '../elements/footer.php'?>

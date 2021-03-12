@@ -30,7 +30,7 @@ form{
     flex-flow: column wrap;
     align-items: center;
     justify-content: center;
-    margin: 25px auto;
+    margin: 25px auto 0px;
 }
 .row{
     display: flex;
@@ -82,9 +82,6 @@ a, button{
     border-radius: 10px;
     width: 25%;
     color:#F2F4FF;
-}
-.success{
-    background: green!important;
 }
 a{
     background: #f34213;
@@ -154,9 +151,10 @@ textarea{
 }
 
 /* admin index*/
-.recherche form{
+.recherche {
     position: relative;
     display: flex;
+    margin-bottom: 15px;
 }
 .recherche input{
     width: 100%;
@@ -165,6 +163,7 @@ textarea{
     outline: none;
     border: 1px solid #000;
     border-radius: 9999px;
+    
 }
 .recherche button{
     width: 200px;
@@ -179,13 +178,55 @@ textarea{
     opacity: 0;
     visibility: hidden;
     position: absolute;
-    bottom: 0;
+    bottom: 0vh;
     left: 50%;
     transform: translate(-50%);
     background: rgba(0, 0, 0, 0.8);
     color: white;
 }
+.success{
+    background: green!important;
+}
 .success:hover .tooltip{
     opacity: 1;
     visibility: visible;
+}
+
+.login{
+    width: 80vw;
+    margin-bottom: 20px;
+}
+.alert {
+    width: 80vw;
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin: 0 auto;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.logout{
+    background: transparent;
+    padding: 0;
+    font-size: 15px;
+    border: none;
+    color: darkblue;
+    position: absolute;
+    top: 1vh;
+    right: 0.5vw;
+}
+.precedent, .suivant{
+    background: #bb0000;
+    font-size: 16px;
+    margin: 0;
+    width: auto;
+}
+.precedent{
+    margin-left: 15px;
+}
+.suivant{
+    position: absolute;
+    right: 15px;
 }
